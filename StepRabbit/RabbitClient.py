@@ -1,41 +1,39 @@
 #!/usr/bin/env python
-import pika
-import uuid, sys
+import pika  # type: ignore
+import uuid, sys, json
 
 
 class RabbitClient(object):
-
-    def __init__(self,host):
-        self.connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host=host))
+    def __init__(self, host: str):
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=host))
 
         self.channel = self.connection.channel()
 
-        result = self.channel.queue_declare(queue='', exclusive=True)
+        result = self.channel.queue_declare(queue="", exclusive=True)
         self.callback_queue = result.method.queue
 
         self.channel.basic_consume(
             queue=self.callback_queue,
             on_message_callback=self.on_response,
-            auto_ack=True)
+            auto_ack=True,
+        )
 
     def on_response(self, ch, method, props, body):
         if self.corr_id == props.correlation_id:
             self.response = body
 
     def call(self, args, wrkr_uuid):
-        args = "SEPARATOR".join([str(elem) for elem in args])
         self.response = None
         self.corr_id = str(uuid.uuid4())
         self.channel.basic_publish(
-            exchange='',
+            exchange="",
             routing_key=wrkr_uuid,
             properties=pika.BasicProperties(
-                reply_to=self.callback_queue,
-                correlation_id=self.corr_id,
+                reply_to=self.callback_queue, correlation_id=self.corr_id,
             ),
-            body=str(args))
+            body=(json.dumps(args)),
+        )
 
         while self.response is None:
             self.connection.process_data_events()
-        return (self.response).decode().split("SEPARATOR")
+        return json.loads((self.response).decode())

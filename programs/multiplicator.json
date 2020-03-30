@@ -1,0 +1,16 @@
+{
+  "name": "Multiplicate",
+  "script": [
+    {
+      "name": "Ask mutliplicator",
+      "inputs": [
+        "first",
+        "second"
+      ],
+      "outputs": [
+        "result"
+      ],
+      "worker_type": "Multiplicator"
+    }
+  ]
+}
