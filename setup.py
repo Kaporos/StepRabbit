@@ -2,7 +2,7 @@ from setuptools import setup  # type: ignore
 
 setup(
     name="StepRabbit",
-    version="0.4",
+    version="0.5",
     description="Code snippets communicator",
     install_requires=["pika", "uuid",],
     author="Théo Daroun",

@@ -1,5 +1,5 @@
 {
-  "name": "Multiplicate",
+  "name": "Multiplicating",
   "script": [
     {
       "name": "Ask mutliplicator",
@@ -12,5 +12,6 @@
       ],
       "worker_type": "Multiplicator"
     }
-  ]
+  ],
+
 }

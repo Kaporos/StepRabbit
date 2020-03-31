@@ -15,9 +15,9 @@ class Caller:
     def execute_string_script(self, program: str, args):
         self.run(Program(json.loads(program)), args)
 
-    def execute(self, program: Program, args):
+    def execute(self, program: Program, args) -> dict:
         print("Executing : " + program.name)
-        self.run(program, args)
+        return self.run(program, args)
 
     @lru_cache(maxsize=0)
     def run(self, program: Program, in_vars) -> dict:
@@ -38,9 +38,17 @@ class Caller:
                     exec_vars.append(vars[input_name])
 
             response = self.rabbit.call(exec_vars, step.worker_type)
-            print(response)
+
+            output_index = 0
             for output_name in step.outputs:
-                vars[output_name] = response[output_name]
+                print("RESPONSE : ")
+                print(response)
+                if not response["status"] == "error":
+
+                    vars[output_name] = response["data"][output_index]
+                else:
+                    vars[output_name] = "error"
+                output_index += 1
             step_index += 1
 
         return vars
