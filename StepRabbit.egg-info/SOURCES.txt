@@ -2,7 +2,7 @@ README.md
 setup.cfg
 setup.py
 StepRabbit/Caller.py
-StepRabbit/Classes.py
+StepRabbit/Program.py
 StepRabbit/ProgramsManager.py
 StepRabbit/RabbitClient.py
 StepRabbit/Worker.py

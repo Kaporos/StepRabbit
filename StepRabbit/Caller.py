@@ -27,7 +27,7 @@ class Caller:
         step_index = 0
 
         for step in program.script.steps:
-            exec_vars = {}
+            exec_vars = []
 
             print(str(step_index) + " -----> " + step.name)
 
@@ -35,7 +35,7 @@ class Caller:
                 if not input_name in vars.keys():
                     raise ValueError("Value of " + input_name + " not specified")
                 else:
-                    exec_vars[input_name] = vars[input_name]
+                    exec_vars.append(vars[input_name])
 
             response = self.rabbit.call(exec_vars, step.worker_type)
             print(response)
