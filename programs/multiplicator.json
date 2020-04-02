@@ -11,7 +11,29 @@
         "result"
       ],
       "worker_type": "Multiplicator"
+    },
+    {
+      "name": "Jean POPOL",
+      "inputs": [
+        "first",
+        "second"
+      ],
+      "outputs": [
+        "result"
+      ],
+      "worker_type": "Multiplicator"
+    },
+    {
+      "name": "Micheline?3",
+      "inputs": [
+        "first",
+        "second"
+      ],
+      "outputs": [
+        "result"
+      ],
+      "worker_type": "Multiplicator"
     }
-  ],
+  ]
 
 }

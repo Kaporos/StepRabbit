@@ -9,12 +9,6 @@ class Caller:
     def __init__(self, host: str):
         self.rabbit = RabbitClient(host)
 
-    def execute_script(self, program: dict, args):
-        self.run(Program(program), args)
-
-    def execute_string_script(self, program: str, args):
-        self.run(Program(json.loads(program)), args)
-
     def execute(self, program: Program, args) -> dict:
         print("Executing : " + program.name)
         return self.run(program, args)
@@ -42,13 +36,13 @@ class Caller:
             output_index = 0
             for output_name in step.outputs:
                 print("RESPONSE : ")
-                print(response)
                 if not response["status"] == "error":
 
                     vars[output_name] = response["data"][output_index]
+                    print(response["data"][output_index])
                 else:
                     vars[output_name] = "error"
                 output_index += 1
             step_index += 1
-
+        print(vars)
         return vars

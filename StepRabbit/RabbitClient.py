@@ -5,7 +5,12 @@ import uuid, sys, json
 
 class RabbitClient(object):
     def __init__(self, host: str):
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters(host=host))
+
+        params = pika.ConnectionParameters(
+            heartbeat=600, blocked_connection_timeout=300, host=host
+        )
+
+        self.connection = pika.BlockingConnection(params)
 
         self.channel = self.connection.channel()
 
